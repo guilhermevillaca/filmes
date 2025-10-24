@@ -26,6 +26,7 @@ public class Obra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String titulo;
+    @Column(length = 1000)
     private String descricao;
     private Integer anoLancamento;
     private String imagemUrl;

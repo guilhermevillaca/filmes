@@ -26,6 +26,8 @@ public class Avaliacao {
     private Integer id;
     @Column(name="nota", nullable = false)
     private Integer nota;
+
+    @Column(length = 1000)
     private String comentario;
     private LocalDateTime dataAvaliacao;
     @ManyToOne
