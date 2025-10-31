@@ -55,7 +55,7 @@ public class ObraController {
 
     @RequestMapping(value = "atualizar/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Obra> atualizar(@PathVariable(value = "id") Integer id,
-            Obra novoObra) {
+            @RequestBody Obra novoObra) {
         Optional<Obra> object = obraRepository.findById(id);
         if (object.isPresent()) {
             return new ResponseEntity<>(obraRepository.save(novoObra), HttpStatus.OK);
