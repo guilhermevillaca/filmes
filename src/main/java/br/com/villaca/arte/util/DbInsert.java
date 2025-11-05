@@ -64,7 +64,18 @@ public class DbInsert implements CommandLineRunner{
         List<Genero> generos = Arrays.asList(genero4, genero5, genero6);
         generoRepository.saveAll(generos);
 
-        Lorem lorem = new LoremIpsum().getInstance();             
+        Lorem lorem = new LoremIpsum().getInstance();
+
+        //Inserindo Obra
+        Obra obra1 = new Obra(
+            null, 
+            "Duro de Matar", 
+            lorem.getParagraphs(1, 2), 
+            1988, 
+            "https://br.web.img2.acsta.net/medias/nmedia/18/92/25/88/20188922.jpg",
+            TipoObra.FILME, 
+            genero1);
+        obraRepository.save(obra1);
 
         //inserindo Obras aleatórias
 
