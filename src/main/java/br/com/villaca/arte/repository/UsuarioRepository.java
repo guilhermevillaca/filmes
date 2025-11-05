@@ -8,4 +8,6 @@ import br.com.villaca.arte.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 
+    Usuario findByLogin(String login);
+
 }
