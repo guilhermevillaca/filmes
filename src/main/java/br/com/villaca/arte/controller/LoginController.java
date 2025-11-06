@@ -25,7 +25,13 @@ public class LoginController {
     @PostMapping("/entrar")
     public ResponseEntity<Object> entrar(@RequestBody Usuario usuario) {
         Optional<Usuario> usuarioIn = usuarioRepository.findByLogin(usuario.getLogin());        
-        if (usuarioIn.isPresent() && usuarioIn.get().getLogin().equals(usuario.getLogin()) && usuarioIn.get().getSenha().equals(usuario.getSenha())) {
+        //Usuario e senha da interface
+        String login = usuario.getLogin();
+        String senha = usuario.getSenha();
+        //Usuario e senha do banco
+        String loginBanco = usuarioIn.get().getLogin();
+        String senhaBanco = usuarioIn.get().getSenha();
+        if (usuarioIn.isPresent() && loginBanco.equals(login) && senhaBanco.equals(senha)) {
             return new ResponseEntity<>(usuarioIn.get(), HttpStatus.OK);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos");
