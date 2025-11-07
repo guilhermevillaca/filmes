@@ -1,5 +1,6 @@
 package br.com.villaca.arte.util;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +47,7 @@ public class DbInsert implements CommandLineRunner{
         "guidvillaca@gmail.com",
         "guilherme.villaca",
         "123", 
-        LocalDateTime.now());
+        Instant.now());
         usuarioRepository.save(usuario1);
 
         //Inserindo Genero

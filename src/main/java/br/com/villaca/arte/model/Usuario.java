@@ -1,6 +1,6 @@
 package br.com.villaca.arte.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,5 +35,5 @@ public class Usuario {
     private String senha;
 
     @Column(name="dataCadastro")
-    private LocalDateTime dataCadastro;
+    private Instant dataCadastro;
 }

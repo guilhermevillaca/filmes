@@ -1,6 +1,6 @@
 package br.com.villaca.arte.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +29,7 @@ public class Avaliacao {
 
     @Column(length = 1000)
     private String comentario;
-    private LocalDateTime dataAvaliacao;
+    private Instant dataAvaliacao;
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
