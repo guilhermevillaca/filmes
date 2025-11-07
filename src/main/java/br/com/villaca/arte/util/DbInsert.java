@@ -100,7 +100,7 @@ public class DbInsert implements CommandLineRunner{
         Avaliacao avaliacao1 = new Avaliacao(null, 
         10, 
         lorem.getParagraphs(1, 3), 
-        LocalDateTime.now(), usuario1, obra1);
+        Instant.now(), usuario1, obra1);
         avaliacaoRepository.save(avaliacao1);
 
 
