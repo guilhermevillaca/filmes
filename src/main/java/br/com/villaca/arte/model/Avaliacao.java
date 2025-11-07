@@ -27,7 +27,7 @@ public class Avaliacao {
     @Column(name="nota", nullable = false)
     private Integer nota;
 
-    @Column(length = 1000)
+    @Column(length = 2000)
     private String comentario;
     private Instant dataAvaliacao;
     @ManyToOne

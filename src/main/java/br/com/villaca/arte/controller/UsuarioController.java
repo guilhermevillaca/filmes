@@ -1,7 +1,6 @@
 package br.com.villaca.arte.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,62 +11,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.villaca.arte.model.Usuario;
-import br.com.villaca.arte.repository.UsuarioRepository;
+import br.com.villaca.arte.dto.request.UsuarioRequest;
+import br.com.villaca.arte.dto.response.UsuarioResponse;
+import br.com.villaca.arte.service.UsuarioService;
 
 @RestController
 @RequestMapping(value = "usuario")
 public class UsuarioController {
 
-    /*
-     * C CREATE -> NOVO
-     * R READ -> LISTAR E GET POR ID
-     * U UPDATE -> ATUALIZAR
-     * D DELETE -> REMOVER
-     */
-
     @Autowired
-    UsuarioRepository usuarioRepository;
+    UsuarioService service;
 
     @RequestMapping(value = "listar", method = RequestMethod.GET)
-    public ResponseEntity<List<Usuario>> listar() {
-        return ResponseEntity.ok((List<Usuario>) usuarioRepository.findAll());
+    public ResponseEntity<List<UsuarioResponse>> listar() {
+        return ResponseEntity.ok((List<UsuarioResponse>) service.listarTodos());
     }
 
-    // localhost:8080/usuario/listar/10
+    // localhost:8080/Obra/listar/10
     @RequestMapping(value = "listar/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Usuario> getById(@PathVariable(value = "id") Integer id) {
-        Optional<Usuario> object = usuarioRepository.findById(id);
-        if (object.isPresent()) {
-            return new ResponseEntity<>(object.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<UsuarioResponse> getById(@PathVariable Integer id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @RequestMapping(value = "novo", method = RequestMethod.POST)
-    public ResponseEntity<Usuario> novo(@RequestBody Usuario usuario) {
-        return new ResponseEntity<Usuario>(usuarioRepository.save(usuario), HttpStatus.OK);
+    public ResponseEntity<UsuarioResponse> novo(@RequestBody UsuarioRequest obra) {
+        return new ResponseEntity<UsuarioResponse>(service.salvar(obra), HttpStatus.OK);
     }
 
     @RequestMapping(value = "remover/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Usuario> remover(@PathVariable(value = "id") Integer id) {
-        Optional<Usuario> object = usuarioRepository.findById(id);
-        if (object.isPresent()) {
-            usuarioRepository.delete(object.get());
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> remover(@PathVariable Integer id) {
+        service.deletar(id);
+        return ResponseEntity.noContent().build(); // retorna 204 sucesso sem corpo
     }
 
     @RequestMapping(value = "atualizar/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Usuario> atualizar(@PathVariable(value = "id") Integer id,
-            Usuario novoUsuario) {
-        Optional<Usuario> object = usuarioRepository.findById(id);
-        if (object.isPresent()) {
-            return new ResponseEntity<>(usuarioRepository.save(novoUsuario), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Integer id,
+            @RequestBody UsuarioRequest novoObra) {
+        UsuarioResponse atualizado = service.atualizar(id, novoObra);
+        return ResponseEntity.ok(atualizado);
     }
 
 }

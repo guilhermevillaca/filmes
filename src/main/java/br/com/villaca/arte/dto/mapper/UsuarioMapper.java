@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingTarget;
 
 import br.com.villaca.arte.dto.request.UsuarioRequest;
 import br.com.villaca.arte.dto.response.UsuarioResponse;
@@ -12,8 +12,6 @@ import br.com.villaca.arte.model.Usuario;
 
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
-
-    UsuarioMapper INSTANCE = Mappers.getMapper(UsuarioMapper.class);
 
     // De request para entidade
     @Mapping(target = "id", ignore = true)
@@ -24,5 +22,8 @@ public interface UsuarioMapper {
     UsuarioResponse toResponseDTO(Usuario usuario);
 
     List<UsuarioResponse> toResponseList(List<Usuario> usuarios);
+
+    @Mapping(target = "id", ignore = true)
+    void updateFromDto(UsuarioRequest dto, @MappingTarget Usuario entity);
 
 }

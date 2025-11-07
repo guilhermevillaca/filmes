@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.villaca.arte.model.Login;
 import br.com.villaca.arte.model.Usuario;
 import br.com.villaca.arte.repository.UsuarioRepository;
 

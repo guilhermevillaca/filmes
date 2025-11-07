@@ -2,52 +2,42 @@ package br.com.villaca.arte.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import br.com.villaca.arte.dto.mapper.ObraMapper;
-import br.com.villaca.arte.dto.request.ObraRequest;
-import br.com.villaca.arte.dto.response.ObraResponse;
-import br.com.villaca.arte.repository.ObraRepository;
+import br.com.villaca.arte.dto.mapper.GeneroMapper;
+import br.com.villaca.arte.dto.request.GeneroRequest;
+import br.com.villaca.arte.dto.response.GeneroResponse;
+import br.com.villaca.arte.repository.GeneroRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ObraService {
+public class GeneroService {
 
-    
-    private final ObraRepository repository;    
-    private final ObraMapper mapper;
+    private final GeneroRepository repository;    
+    private final GeneroMapper mapper;
 
-    public List<ObraResponse> listarTodos() {
+    public List<GeneroResponse> listarTodos() {
         var obras = repository.findAll(Sort.by("id").ascending());
         return mapper.toResponseList(obras);
     }
 
-    public Page<ObraResponse> listarPaginado(int page, int size){
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        var entities = repository.findAll(pageable);
-        return entities.map(mapper::toResponseDTO);
-    }
-
-    public ObraResponse getById(Integer id) {
+    public GeneroResponse getById(Integer id) {
         return repository.findById(id)
                 .map(mapper::toResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Obra não encontrada com o id " + id));
     }
 
-    public ObraResponse salvar(ObraRequest obra) {
+    public GeneroResponse salvar(GeneroRequest obra) {
         var entity = mapper.toEntity(obra);
         entity.setId(null);
         var salvo = repository.save(entity);
         return mapper.toResponseDTO(salvo);
     }
 
-    public ObraResponse atualizar(Integer id, ObraRequest dto) {
+    public GeneroResponse atualizar(Integer id, GeneroRequest dto) {
         var obra = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Obra não encontrada com o id " + id));
 
@@ -62,4 +52,5 @@ public class ObraService {
         }
         repository.deleteById(id); // se der FK, o Handler pega
     }
+
 }
