@@ -36,8 +36,8 @@ public class UsuarioService {
                 .orElseThrow(() -> new EntityNotFoundException("Este login não existe na base"));
     }
 
-    public UsuarioResponse salvar(UsuarioRequest obra) {
-        var entity = mapper.toEntity(obra);
+    public UsuarioResponse salvar(UsuarioRequest usuario) {
+        var entity = mapper.toEntity(usuario);
         entity.setId(null);
         var salvo = repository.save(entity);
         return mapper.toResponseDTO(salvo);

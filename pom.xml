@@ -94,7 +94,14 @@
 			<version>1.5.5.Final</version>
 			<scope>provided</scope>
 		</dependency>
-	</dependencies>
+
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.41.2</version>
+        </dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>

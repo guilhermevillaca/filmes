@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.thedeanda.lorem.Lorem;
@@ -37,6 +38,9 @@ public class DbInsert implements CommandLineRunner{
     @Autowired
     AvaliacaoRepository avaliacaoRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -45,7 +49,7 @@ public class DbInsert implements CommandLineRunner{
         "Guilherme", 
         "guidvillaca@gmail.com",
         "guilherme.villaca",
-        "123", 
+        passwordEncoder.encode("123"),
         Instant.now());
         usuarioRepository.save(usuario1);
 

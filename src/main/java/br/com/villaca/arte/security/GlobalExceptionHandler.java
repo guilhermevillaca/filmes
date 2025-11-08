@@ -1,4 +1,4 @@
-package br.com.villaca.arte.util;
+package br.com.villaca.arte.security;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

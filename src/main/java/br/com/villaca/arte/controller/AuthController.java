@@ -1,34 +1,54 @@
 package br.com.villaca.arte.controller;
 
+import br.com.villaca.arte.dto.request.LoginRequest;
 import br.com.villaca.arte.dto.request.UsuarioRequest;
+import br.com.villaca.arte.dto.response.UsuarioResponse;
 import br.com.villaca.arte.model.Usuario;
+import br.com.villaca.arte.security.JwtTokenProvider;
 import br.com.villaca.arte.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
-    UsuarioService service;
+    private UsuarioService service;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
+    //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody UsuarioRequest usuario) {
-        Usuario usuarioIn = service.getByLogin(usuario.login());        //Usuario e senha da interface
-        String login = usuario.login();
-        String senha = usuario.senha();
-        //Usuario e senha do banco
-        String loginBanco = usuarioIn.getLogin();
-        String senhaBanco = usuarioIn.getSenha();
-        if (loginBanco.equals(login) && senhaBanco.equals(senha)) {
-            return new ResponseEntity<>(usuarioIn, HttpStatus.OK);
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) throws Exception {
+        Usuario usuario = service.getByLogin(request.login());
+
+        if (!passwordEncoder.matches(request.senha(), usuario.getSenha())) {
+            throw new RuntimeException("Senha inválida");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos");
+
+        String token = jwtTokenProvider.generateToken(usuario.getLogin());
+        return new ResponseEntity<String>(token, HttpStatus.OK);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UsuarioResponse> register(@RequestBody UsuarioRequest request) {
+        UsuarioRequest request1 = new UsuarioRequest(
+                request.nome(),
+                request.email(),
+                request.login(),
+                request.senha(),
+                request.dataCadastro()
+        );
+        return new ResponseEntity<UsuarioResponse>(service.salvar(request), HttpStatus.OK);
     }
 }
