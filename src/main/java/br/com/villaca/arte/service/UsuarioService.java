@@ -2,6 +2,7 @@ package br.com.villaca.arte.service;
 
 import java.util.List;
 
+import br.com.villaca.arte.model.Usuario;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,11 @@ public class UsuarioService {
         return repository.findById(id)
                 .map(mapper::toResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Entidade não encontrada com o id " + id));
+    }
+
+    public Usuario getByLogin(String login){
+        return repository.findByLogin(login)
+                .orElseThrow(() -> new EntityNotFoundException("Este login não existe na base"));
     }
 
     public UsuarioResponse salvar(UsuarioRequest obra) {
