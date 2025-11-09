@@ -2,6 +2,7 @@ package br.com.villaca.arte.controller;
 
 import br.com.villaca.arte.dto.request.LoginRequest;
 import br.com.villaca.arte.dto.request.UsuarioRequest;
+import br.com.villaca.arte.dto.response.TokenResponse;
 import br.com.villaca.arte.dto.response.UsuarioResponse;
 import br.com.villaca.arte.model.Usuario;
 import br.com.villaca.arte.security.JwtTokenProvider;
@@ -29,7 +30,7 @@ public class AuthController {
     //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) throws Exception {
+    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest request) throws Exception {
         Usuario usuario = service.getByLogin(request.login());
 
         if (!passwordEncoder.matches(request.senha(), usuario.getSenha())) {
@@ -37,7 +38,7 @@ public class AuthController {
         }
 
         String token = jwtTokenProvider.generateToken(usuario.getLogin());
-        return new ResponseEntity<String>(token, HttpStatus.OK);
+        return new ResponseEntity<TokenResponse>(new TokenResponse(token), HttpStatus.OK);
     }
 
     @PostMapping("/register")

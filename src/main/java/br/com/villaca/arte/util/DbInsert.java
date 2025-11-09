@@ -49,7 +49,7 @@ public class DbInsert implements CommandLineRunner{
         "Guilherme", 
         "guidvillaca@gmail.com",
         "guilherme.villaca",
-        passwordEncoder.encode("123"),
+        passwordEncoder.encode("g123456"),
         Instant.now());
         usuarioRepository.save(usuario1);
 
