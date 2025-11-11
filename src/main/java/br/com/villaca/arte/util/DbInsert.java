@@ -1,9 +1,8 @@
 package br.com.villaca.arte.util;
 
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import br.com.villaca.arte.model.enums.PerfilUsuario;
 import br.com.villaca.arte.repository.UsuarioRepository;
@@ -47,7 +46,7 @@ public class DbInsert implements CommandLineRunner {
 
         //Inserindo Usuário
         Usuario usuario1 = new Usuario(null,
-                "Guilherme",
+                "Guilherme Villaca",
                 "guidvillaca@gmail.com",
                 "guilherme.villaca",
                 passwordEncoder.encode("g123456"),
@@ -55,6 +54,69 @@ public class DbInsert implements CommandLineRunner {
                 PerfilUsuario.ADMIN);
 
         usuarioRepository.save(usuario1);
+
+        String[] nomes = {
+                "Ana", "Bruno", "Carla", "Daniel", "Eduardo", "Fernanda", "Gabriel", "Helena",
+                "Igor", "Juliana", "Karla", "Lucas", "Mariana", "Nicolas", "Olivia", "Paulo",
+                "Quintino", "Rafaela", "Sabrina", "Thiago", "Ursula", "Vinicius", "Wesley", "Yara", "Zeca"
+        };
+
+        String[] sobrenomes = {
+                "Silva", "Souza", "Costa", "Pereira", "Oliveira", "Lima", "Gomes", "Ribeiro",
+                "Martins", "Carvalho", "Almeida", "Araújo", "Fernandes", "Moura", "Barbosa"
+        };
+
+        String[] dominios = {"gmail.com", "outlook.com", "yahoo.com", "hotmail.com"};
+
+        Random random = new Random();
+
+        List<Usuario> usuarios = new ArrayList<>();
+
+        // Pegamos logins já existentes para verificar duplicidade
+        Set<String> loginsExistentes = usuarioRepository.findAll()
+                .stream()
+                .map(Usuario::getLogin)
+                .collect(Collectors.toSet());
+
+        Set<String> emailsExistentes = usuarioRepository.findAll()
+                .stream()
+                .map(Usuario::getEmail)
+                .collect(Collectors.toSet());
+
+        for (int i = 0; i < 80; i++) {
+            String nome = nomes[random.nextInt(nomes.length)];
+            String sobrenome = sobrenomes[random.nextInt(sobrenomes.length)];
+            String loginBase = (nome + "." + sobrenome).toLowerCase();
+            String dominio = dominios[random.nextInt(dominios.length)];
+            String login = loginBase;
+            String email = login + "@" + dominio;
+
+            // Garante login único adicionando sufixo numérico
+            int sufixo = 2;
+            while (loginsExistentes.contains(login)) {
+                login = loginBase + sufixo;
+                email = login + "@" + dominio;
+                sufixo++;
+            }
+
+            // Adiciona ao conjunto de existentes para não repetir na mesma execução
+            loginsExistentes.add(login);
+            emailsExistentes.add(email);
+
+            Usuario usuario = new Usuario(
+                    null,
+                    nome + " " + sobrenome,
+                    email,
+                    login,
+                    passwordEncoder.encode("g123456"),
+                    Instant.now(),
+                    PerfilUsuario.ADMIN
+            );
+
+            usuarios.add(usuario);
+        }
+
+        usuarioRepository.saveAll(usuarios);
 
         //Inserindo Generos
         List<Genero> generos = Arrays.asList(
@@ -125,8 +187,6 @@ public class DbInsert implements CommandLineRunner {
         obraRepository.save(obra1);
 
         //inserindo Obras aleatórias
-
-        Random random = new Random();
         TipoObra[] tipos = TipoObra.values();
         for (int i = 0; i <= 100; i++) {
             //gerando ano randomico
