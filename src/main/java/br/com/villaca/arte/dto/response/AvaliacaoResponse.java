@@ -6,7 +6,7 @@ import java.util.UUID;
 import br.com.villaca.arte.model.Obra;
 
 public record AvaliacaoResponse(UUID id,
-                                Integer nota,
+                                Double nota,
                                 String comentario,
                                 Instant dataAvaliacao,
                                 UsuarioResponse usuario,

@@ -27,7 +27,7 @@ public class Avaliacao extends BaseEntity{
     private UUID id;
 
     @Column(name="nota", nullable = false)
-    private Integer nota;
+    private Double nota;
 
     @Column(length = 2000)
     private String comentario;
