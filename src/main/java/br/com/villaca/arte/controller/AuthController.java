@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -37,7 +40,13 @@ public class AuthController {
             throw new RuntimeException("Senha inválida");
         }
 
-        String token = jwtTokenProvider.generateToken(usuario.getLogin());
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", usuario.getId());
+        claims.put("nome", usuario.getNome());
+        claims.put("email", usuario.getEmail());
+        claims.put("perfil", usuario.getPerfil());
+
+        String token = jwtTokenProvider.generateToken(usuario.getLogin(), claims);
         return new ResponseEntity<TokenResponse>(new TokenResponse(token), HttpStatus.OK);
     }
 

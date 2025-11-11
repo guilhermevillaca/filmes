@@ -82,7 +82,7 @@ public class DbInsert implements CommandLineRunner {
                 .stream()
                 .map(Usuario::getEmail)
                 .collect(Collectors.toSet());
-
+        PerfilUsuario[] perfis = PerfilUsuario.values();
         for (int i = 0; i < 80; i++) {
             String nome = nomes[random.nextInt(nomes.length)];
             String sobrenome = sobrenomes[random.nextInt(sobrenomes.length)];
@@ -102,6 +102,7 @@ public class DbInsert implements CommandLineRunner {
             // Adiciona ao conjunto de existentes para não repetir na mesma execução
             loginsExistentes.add(login);
             emailsExistentes.add(email);
+            PerfilUsuario perfilAleatorio = perfis[random.nextInt(perfis.length)];
 
             Usuario usuario = new Usuario(
                     null,
@@ -110,7 +111,7 @@ public class DbInsert implements CommandLineRunner {
                     login,
                     passwordEncoder.encode("g123456"),
                     Instant.now(),
-                    PerfilUsuario.ADMIN
+                    perfilAleatorio
             );
 
             usuarios.add(usuario);
