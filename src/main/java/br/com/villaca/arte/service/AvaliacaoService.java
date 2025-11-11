@@ -71,4 +71,10 @@ public class AvaliacaoService implements GenericService<UUID, AvaliacaoResponse,
         repository.deleteById(id); // se der FK, o Handler pega
     }
 
+    public Page<AvaliacaoResponse> listarPorObra(UUID idObra, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        var entities =  repository.findByObra_Id(idObra, pageable);
+        return entities.map(mapper::toResponseDTO);
+    }
+
 }
