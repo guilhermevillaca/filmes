@@ -3,13 +3,11 @@ package br.com.villaca.arte.service;
 import java.util.List;
 import java.util.UUID;
 
-import br.com.villaca.arte.dto.response.GeneroResponse;
-import br.com.villaca.arte.util.GenericService;
+import br.com.villaca.arte.util.api.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import br.com.villaca.arte.dto.mapper.AvaliacaoMapper;
 import br.com.villaca.arte.dto.request.AvaliacaoRequest;
@@ -18,9 +16,9 @@ import br.com.villaca.arte.repository.AvaliacaoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-@Service
+@org.springframework.stereotype.Service
 @RequiredArgsConstructor
-public class AvaliacaoService implements GenericService<UUID, AvaliacaoResponse, AvaliacaoRequest> {
+public class AvaliacaoService implements Service<UUID, AvaliacaoResponse, AvaliacaoRequest> {
 
     private final AvaliacaoRepository repository;    
     private final AvaliacaoMapper mapper;
@@ -42,7 +40,7 @@ public class AvaliacaoService implements GenericService<UUID, AvaliacaoResponse,
     public AvaliacaoResponse findById(UUID id) {
         return repository.findById(id)
                 .map(mapper::toResponseDTO)
-                .orElseThrow(() -> new EntityNotFoundException("Obra não encontrada com o id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Avaliação não encontrada com o id " + id));
     }
 
     @Override
@@ -56,7 +54,7 @@ public class AvaliacaoService implements GenericService<UUID, AvaliacaoResponse,
     @Override
     public AvaliacaoResponse update(UUID id, AvaliacaoRequest dto) {
         var obra = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Obra não encontrada com o id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Avaliação não encontrada com o id " + id));
 
         mapper.updateFromDto(dto, obra); // método adicional no mapper
         var salvo = repository.save(obra);

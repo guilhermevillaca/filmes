@@ -3,7 +3,7 @@ package br.com.villaca.arte.controller;
 import br.com.villaca.arte.dto.request.AvaliacaoRequest;
 import br.com.villaca.arte.dto.response.AvaliacaoResponse;
 import br.com.villaca.arte.service.AvaliacaoService;
-import br.com.villaca.arte.util.Controller;
+import br.com.villaca.arte.util.api.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package br.com.villaca.arte.util;
+package br.com.villaca.arte.util.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +13,7 @@ import java.util.List;
 * */
 public class Controller<
         PK,
-        SERVICE extends GenericService<PK, RESPONSE, REQUEST>,
+        SERVICE extends Service<PK, RESPONSE, REQUEST>,
         RESPONSE,
         REQUEST> {
 

@@ -5,12 +5,11 @@ import java.util.UUID;
 
 import br.com.villaca.arte.model.Usuario;
 import br.com.villaca.arte.repository.UsuarioRepository;
-import br.com.villaca.arte.util.GenericService;
+import br.com.villaca.arte.util.api.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import br.com.villaca.arte.dto.mapper.UsuarioMapper;
 import br.com.villaca.arte.dto.request.UsuarioRequest;
@@ -18,9 +17,9 @@ import br.com.villaca.arte.dto.response.UsuarioResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-@Service
+@org.springframework.stereotype.Service
 @RequiredArgsConstructor
-public class UsuarioService implements GenericService<UUID, UsuarioResponse, UsuarioRequest> {
+public class UsuarioService implements Service<UUID, UsuarioResponse, UsuarioRequest> {
 
     private final UsuarioRepository repository;
     private final UsuarioMapper mapper; 

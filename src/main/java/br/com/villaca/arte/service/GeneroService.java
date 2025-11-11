@@ -3,13 +3,11 @@ package br.com.villaca.arte.service;
 import java.util.List;
 import java.util.UUID;
 
-import br.com.villaca.arte.dto.response.ObraResponse;
-import br.com.villaca.arte.util.GenericService;
+import br.com.villaca.arte.util.api.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import br.com.villaca.arte.dto.mapper.GeneroMapper;
 import br.com.villaca.arte.dto.request.GeneroRequest;
@@ -18,9 +16,9 @@ import br.com.villaca.arte.repository.GeneroRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
-@Service
+@org.springframework.stereotype.Service
 @RequiredArgsConstructor
-public class GeneroService implements GenericService<UUID, GeneroResponse, GeneroRequest> {
+public class GeneroService implements Service<UUID, GeneroResponse, GeneroRequest> {
 
     private final GeneroRepository repository;    
     private final GeneroMapper mapper;
