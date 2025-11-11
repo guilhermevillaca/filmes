@@ -15,21 +15,28 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "obra")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Obra {
+public class Obra extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
     private String titulo;
+
     @Column(length = 1000)
     private String descricao;
+
     private Integer anoLancamento;
+
     private String imagemUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private TipoObra tipo;

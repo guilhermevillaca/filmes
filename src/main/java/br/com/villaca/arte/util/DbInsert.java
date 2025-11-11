@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import br.com.villaca.arte.model.enums.PerfilUsuario;
+import br.com.villaca.arte.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,10 +23,9 @@ import br.com.villaca.arte.model.enums.TipoObra;
 import br.com.villaca.arte.repository.AvaliacaoRepository;
 import br.com.villaca.arte.repository.GeneroRepository;
 import br.com.villaca.arte.repository.ObraRepository;
-import br.com.villaca.arte.repository.UsuarioRepository;
 
 @Component
-public class DbInsert implements CommandLineRunner{
+public class DbInsert implements CommandLineRunner {
 
     @Autowired
     UsuarioRepository usuarioRepository;
@@ -45,12 +46,14 @@ public class DbInsert implements CommandLineRunner{
     public void run(String... args) throws Exception {
 
         //Inserindo Usuário
-        Usuario usuario1 = new Usuario(null, 
-        "Guilherme", 
-        "guidvillaca@gmail.com",
-        "guilherme.villaca",
-        passwordEncoder.encode("g123456"),
-        Instant.now());
+        Usuario usuario1 = new Usuario(null,
+                "Guilherme",
+                "guidvillaca@gmail.com",
+                "guilherme.villaca",
+                passwordEncoder.encode("g123456"),
+                Instant.now(),
+                PerfilUsuario.ADMIN);
+
         usuarioRepository.save(usuario1);
 
         //Inserindo Genero
@@ -72,42 +75,47 @@ public class DbInsert implements CommandLineRunner{
 
         //Inserindo Obra
         Obra obra1 = new Obra(
-            null, 
-            "Duro de Matar", 
-            lorem.getParagraphs(1, 2), 
-            1988, 
-            "https://br.web.img2.acsta.net/medias/nmedia/18/92/25/88/20188922.jpg",
-            TipoObra.FILME, 
-            genero1);
+                null,
+                "Duro de Matar",
+                lorem.getParagraphs(1, 2),
+                1988,
+                "https://br.web.img2.acsta.net/medias/nmedia/18/92/25/88/20188922.jpg",
+                TipoObra.FILME,
+                genero1);
         obraRepository.save(obra1);
 
         //inserindo Obras aleatórias
 
-        Random random = new Random();        
-        for(int i = 0; i <= 50; i++){
+        Random random = new Random();
+        for (int i = 0; i <= 50; i++) {
             //gerando ano randomico
-            int ano = 1960 + random.nextInt(2025-1960 +1);
+            int ano = 1960 + random.nextInt(2025 - 1960 + 1);
             Obra obra = new Obra(
-            null, 
-            lorem.getTitle(2), 
-            lorem.getParagraphs(1, 2), 
-            ano, 
-            "https://picsum.photos/id/"+ random.nextInt(50) +"/400/800",
-            TipoObra.FILME, 
-            genero1);
+                    null,
+                    lorem.getTitle(2),
+                    lorem.getParagraphs(1, 2),
+                    ano,
+                    "https://picsum.photos/id/" + random.nextInt(50) + "/400/800",
+                    TipoObra.FILME,
+                    genero1);
             obraRepository.save(obra);
         }
+        List<Obra> obras = obraRepository.findAll();
 
         //usando lorem
         //Inserindo avaliações
-        Avaliacao avaliacao1 = new Avaliacao(null, 
-        10, 
-        lorem.getParagraphs(1, 3), 
-        Instant.now(), usuario1, obra1);
-        avaliacaoRepository.save(avaliacao1);
+        for(Obra obra: obras){
+            for(int j = 0; j < 10; j++){
+                Avaliacao avaliacao1 = new Avaliacao(null,
+                        10,
+                        lorem.getParagraphs(1, 3),
+                        Instant.now(), usuario1, obra);
+                avaliacaoRepository.save(avaliacao1);
+
+            }
+        }
 
 
-        
     }
 
 }

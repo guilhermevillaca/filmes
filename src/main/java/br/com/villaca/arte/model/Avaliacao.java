@@ -1,6 +1,7 @@
 package br.com.villaca.arte.model;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,17 +20,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Avaliacao {
+public class Avaliacao extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
     @Column(name="nota", nullable = false)
     private Integer nota;
 
     @Column(length = 2000)
     private String comentario;
+
     private Instant dataAvaliacao;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;

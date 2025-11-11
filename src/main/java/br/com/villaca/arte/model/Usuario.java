@@ -1,13 +1,10 @@
 package br.com.villaca.arte.model;
 
 import java.time.Instant;
+import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import br.com.villaca.arte.model.enums.PerfilUsuario;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "usuario")
-public class Usuario {    
+public class Usuario extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "nome", length = 200, nullable = false)
     private String nome;
@@ -36,4 +33,9 @@ public class Usuario {
 
     @Column(name="dataCadastro")
     private Instant dataCadastro;
+
+    @Enumerated(EnumType.STRING)
+    private PerfilUsuario perfil;
+
+
 }

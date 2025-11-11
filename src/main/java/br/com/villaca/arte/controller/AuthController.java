@@ -48,8 +48,9 @@ public class AuthController {
                 request.email(),
                 request.login(),
                 request.senha(),
-                request.dataCadastro()
+                request.dataCadastro(),
+                request.perfil()
         );
-        return new ResponseEntity<UsuarioResponse>(service.salvar(request), HttpStatus.OK);
+        return new ResponseEntity<UsuarioResponse>(service.create(request), HttpStatus.OK);
     }
 }

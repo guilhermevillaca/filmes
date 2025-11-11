@@ -1,6 +1,8 @@
 package br.com.villaca.arte.dto.response;
 
-public record GeneroResponse(Integer id,
-        String nome) {
+import java.util.UUID;
+
+public record GeneroResponse(UUID id,
+                             String nome) {
 
 }

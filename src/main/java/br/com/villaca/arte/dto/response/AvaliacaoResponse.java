@@ -1,15 +1,15 @@
 package br.com.villaca.arte.dto.response;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import br.com.villaca.arte.model.Obra;
-import br.com.villaca.arte.model.Usuario;
 
-public record AvaliacaoResponse(Integer id,
-        Integer nota,
-        String comentario,
-        Instant dataAvaliacao,
-        Usuario usuario,
-        Obra obra) {
+public record AvaliacaoResponse(UUID id,
+                                Integer nota,
+                                String comentario,
+                                Instant dataAvaliacao,
+                                UsuarioResponse usuario,
+                                ObraResponse obra) {
 
 }

@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.villaca.arte.model.Obra;
 
-public interface ObraRepository extends JpaRepository<Obra, Integer>{
+import java.util.UUID;
+
+public interface ObraRepository extends JpaRepository<Obra, UUID>{
 
 }

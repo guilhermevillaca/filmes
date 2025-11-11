@@ -1,7 +1,13 @@
 package br.com.villaca.arte.service;
 
 import java.util.List;
+import java.util.UUID;
 
+import br.com.villaca.arte.dto.response.ObraResponse;
+import br.com.villaca.arte.util.GenericService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -14,30 +20,41 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class GeneroService {
+public class GeneroService implements GenericService<UUID, GeneroResponse, GeneroRequest> {
 
     private final GeneroRepository repository;    
     private final GeneroMapper mapper;
 
-    public List<GeneroResponse> listarTodos() {
+    @Override
+    public List<GeneroResponse> findAll() {
         var obras = repository.findAll(Sort.by("id").ascending());
         return mapper.toResponseList(obras);
     }
 
-    public GeneroResponse getById(Integer id) {
+    @Override
+    public Page<GeneroResponse> findAllPaginated(int page, int size){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        var entities = repository.findAll(pageable);
+        return entities.map(mapper::toResponseDTO);
+    }
+
+    @Override
+    public GeneroResponse findById(UUID id) {
         return repository.findById(id)
                 .map(mapper::toResponseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Obra não encontrada com o id " + id));
     }
 
-    public GeneroResponse salvar(GeneroRequest obra) {
+    @Override
+    public GeneroResponse create(GeneroRequest obra) {
         var entity = mapper.toEntity(obra);
         entity.setId(null);
         var salvo = repository.save(entity);
         return mapper.toResponseDTO(salvo);
     }
 
-    public GeneroResponse atualizar(Integer id, GeneroRequest dto) {
+    @Override
+    public GeneroResponse update(UUID id, GeneroRequest dto) {
         var obra = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Obra não encontrada com o id " + id));
 
@@ -46,7 +63,8 @@ public class GeneroService {
         return mapper.toResponseDTO(salvo);
     }
 
-    public void deletar(Integer id) {
+    @Override
+    public void delete(UUID id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException("Obra não encontrada com o id " + id);
         }
