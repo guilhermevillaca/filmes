@@ -198,7 +198,7 @@ public class DbInsert implements CommandLineRunner {
                     lorem.getTitle(2),
                     lorem.getParagraphs(1, 2),
                     ano,
-                    "https://picsum.photos/id/" + random.nextInt(50) + "/400/800",
+                    "https://picsum.photos/id/" + random.nextInt(50) + "/779/1097",
                     tipoAleatorio,
                     generos.get(new Random().nextInt(generos.size())));
             obraRepository.save(obra);

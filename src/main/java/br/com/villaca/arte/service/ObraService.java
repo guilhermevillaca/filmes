@@ -28,8 +28,13 @@ public class ObraService implements Service<UUID, ObraResponse, ObraRequest> {
 
     @Override
     public List<ObraResponse> findAll() {
-        var obras = repository.findAll(Sort.by("id").ascending());
-        return mapper.toResponseList(obras);
+        var entities = repository.findAll(Sort.by("id").ascending());
+        return mapper.toResponseList(entities);
+    }
+
+    public List<ObraResponse> findRandomObras() {
+        var entities = repository.findRandomObras(5);
+        return mapper.toResponseList(entities);
     }
 
     @Override
@@ -43,6 +48,11 @@ public class ObraService implements Service<UUID, ObraResponse, ObraRequest> {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         var entities = repository.findByTipo(tipo, pageable);
         return entities.map(mapper::toResponseDTO);
+    }
+
+    public List<ObraResponse> findTop5ByTipo(TipoObra tipo){
+        var entities = repository.findTop5ByTipo(tipo);
+        return mapper.toResponseList(entities);
     }
 
     public Page<ObraResponse> findByGenero(UUID genero_id, int page, int size) {

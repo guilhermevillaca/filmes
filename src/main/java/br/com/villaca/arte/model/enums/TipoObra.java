@@ -4,5 +4,11 @@ public enum TipoObra {
     FILME,
     SERIE,
     ANIME,
-    DOCUMENTARIO
+    DOCUMENTARIO,
+    CURTA_METRAGEM,
+    MINISSERIE,
+    REALITY_SHOW,
+    DESENHO,
+    VIDEOCLIPE,
+    TEATRO_FILMADO
 }

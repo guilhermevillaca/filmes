@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,6 +25,11 @@ public class ObraController extends Controller<UUID, ObraService, ObraResponse, 
     @GetMapping("findByTipo/{tipo}")
     public ResponseEntity<Page<ObraResponse>> findByTipo(@PathVariable TipoObra tipo, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "15") int size){
         return ResponseEntity.ok(obraService.findAllByTipo(tipo, page, size));
+    }
+
+    @GetMapping("findTop5ByTipo/{tipo}")
+    public ResponseEntity<List<ObraResponse>> findTop5ByTipo(@PathVariable TipoObra tipo){
+        return ResponseEntity.ok(obraService.findTop5ByTipo(tipo));
     }
 
     @GetMapping("findByGenero/{genero_id}")
