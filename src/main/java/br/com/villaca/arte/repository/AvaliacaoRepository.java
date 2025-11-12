@@ -12,6 +12,6 @@ import java.util.UUID;
 
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, UUID>{
 
-    Page<Avaliacao> findByObra_Id(UUID idObra, Pageable pageable);
+    Page<Avaliacao> findByObra_Id(UUID obra_id, Pageable pageable);
 
 }

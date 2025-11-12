@@ -3,6 +3,8 @@ package br.com.villaca.arte.service;
 import java.util.List;
 import java.util.UUID;
 
+import br.com.villaca.arte.dto.response.AvaliacaoResponse;
+import br.com.villaca.arte.model.enums.TipoObra;
 import br.com.villaca.arte.util.api.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +36,18 @@ public class ObraService implements Service<UUID, ObraResponse, ObraRequest> {
     public Page<ObraResponse> findAllPaginated(int page, int size){
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         var entities = repository.findAll(pageable);
+        return entities.map(mapper::toResponseDTO);
+    }
+
+    public Page<ObraResponse> findAllByTipo(TipoObra tipo, int page, int size){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        var entities = repository.findByTipo(tipo, pageable);
+        return entities.map(mapper::toResponseDTO);
+    }
+
+    public Page<ObraResponse> findByGenero(UUID genero_id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        var entities =  repository.findByGenero_Id(genero_id, pageable);
         return entities.map(mapper::toResponseDTO);
     }
 

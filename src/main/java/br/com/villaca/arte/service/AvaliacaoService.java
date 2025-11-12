@@ -69,9 +69,9 @@ public class AvaliacaoService implements Service<UUID, AvaliacaoResponse, Avalia
         repository.deleteById(id); // se der FK, o Handler pega
     }
 
-    public Page<AvaliacaoResponse> listarPorObra(UUID idObra, int page, int size) {
+    public Page<AvaliacaoResponse> findByObra(UUID obra_id, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        var entities =  repository.findByObra_Id(idObra, pageable);
+        var entities =  repository.findByObra_Id(obra_id, pageable);
         return entities.map(mapper::toResponseDTO);
     }
 

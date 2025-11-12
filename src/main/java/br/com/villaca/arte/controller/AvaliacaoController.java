@@ -18,9 +18,9 @@ public class AvaliacaoController extends Controller<UUID, AvaliacaoService, Aval
     @Autowired
     AvaliacaoService service;
 
-    @GetMapping("findByObra_Id/{id_obra}")
-    public ResponseEntity<Page<AvaliacaoResponse>> findByObra_Id(@PathVariable UUID id_obra, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "0") int size) {
-        return ResponseEntity.ok(service.listarPorObra(id_obra, page, size));
+    @GetMapping("findByObra_Id/{obra_id}")
+    public ResponseEntity<Page<AvaliacaoResponse>> findByObra_Id(@PathVariable UUID obra_id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "15") int size) {
+        return ResponseEntity.ok(service.findByObra(obra_id, page, size));
     }
 
 
